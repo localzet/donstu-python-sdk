@@ -4,22 +4,50 @@ build-backend = "hatchling.build"
 
 [project]
 name = "donstu-sdk"
-version = "0.1.0"
-description = "Python SDK for the DSTU/MMISLab API"
+version = "0.2.0"
+description = "Unofficial Python SDK for the DONSTU educational API"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["httpx>=0.27,<1"]
 license = {text = "MIT"}
 authors = [{name = "localzet"}]
+keywords = ["donstu", "dstu", "schedule", "timetable", "sdk", "api"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Repository = "https://github.com/localzet/donstu-python-sdk"
+Issues = "https://github.com/localzet/donstu-python-sdk/issues"
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6"]
+dev = [
+  "build>=1.2",
+  "pytest>=8",
+  "ruff>=0.6",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/donstu_sdk"]
 
 [tool.hatch.build]
-include = ["src/donstu_sdk/**/*.py", "src/donstu_sdk/resources/routes.json"]
+include = ["src/donstu_sdk/**/*.py", "src/donstu_sdk/py.typed"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 130
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
