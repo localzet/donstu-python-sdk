@@ -8,7 +8,7 @@ from .exceptions import DonstuAPIError
 
 @dataclass(slots=True)
 class Envelope:
-    """Стандартный ответ MMISLab: state/msg/data."""
+    """Common ``state/msg/data`` response envelope used by the API."""
 
     state: Any
     data: Any = None
@@ -28,10 +28,13 @@ class Envelope:
 
     @property
     def ok(self) -> bool:
-        # RequestState.Success = 1. На части старых ответов возможен bool True.
-        return self.state == 1 or self.state is True or str(self.state).lower() == "success"
+        value = str(self.state).lower()
+        return self.state == 1 or self.state is True or value in {"success", "1", "true"}
 
-    def unwrap(self) -> Any:
+    def ensure_success(self) -> None:
         if not self.ok:
             raise DonstuAPIError(self.state, self.msg, payload=self.raw)
+
+    def unwrap(self) -> Any:
+        self.ensure_success()
         return self.data
