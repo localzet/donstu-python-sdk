@@ -9,13 +9,6 @@ with DonstuClient() as dstu:
         os.environ["DONSTU_PASSWORD"],
     )
 
-    me = dstu.auth.me()
-    print(me)
-
-    # Пример обычного расписания группы.
-    rasp = dstu.schedule.rasp(idGroup=12345, sdate="2026-09-19")
-    print(rasp)
-
-    # Найти неизвестный заранее endpoint в каталоге.
-    for route in dstu.catalog.find("Rasp", method="GET")[:10]:
-        print(route.method, route.path, route.params)
+    print(dstu.auth.me())
+    print(dstu.schedule.groups())
+    print(dstu.schedule.get(group_id=12345, start_date="2026-09-21"))
